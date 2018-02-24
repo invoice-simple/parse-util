@@ -1,24 +1,23 @@
 {
   "name": "parse-util",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "postinstall": "tsc",
+    "prepublish": "rm -rf ./dist && tsc",
     "test": "tsc -p ./test/ && mocha -- ./dist/test"
   },
   "author": "Saulo Tauil <saulogt@gmail.com>",
   "license": "ISC",
-  "dependencies": {
-    "parse": "~1.11.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/node": "^9.4.6",
-    "typescript": "^2.7.2",
     "@types/mocha": "^2.2.44",
+    "@types/node": "^9.4.6",
+    "@types/parse": "^2.4.5",
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
-    "nodemon": "1.11.0"
+    "nodemon": "1.11.0",
+    "typescript": "^2.7.2"
   }
 }
