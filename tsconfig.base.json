@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "target": "es6",
+      //"lib": ["es2017"],
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "removeComments": true,
+      "sourceMap": true,
+      "noLib": false,
+      "preserveConstEnums": true,
+      "declaration": true,
+      "suppressImplicitAnyIndexErrors": true,      
+      "outDir": "./dist"
+  }  
+}
