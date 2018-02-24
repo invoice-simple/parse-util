@@ -1,3 +1,4 @@
+import Parse from 'parse'
 
 export function save<T extends Parse.Object>(
   object: T,
@@ -40,10 +41,10 @@ export function getOne<T extends Parse.Object>(
   return first(q, useMasterKey, sessionToken);
 }
 
-export function getRoleByName(name: string) {
+export function getRoleByName<T extends Parse.Role>(name: string) {
   const q = new Parse.Query(Parse.Role);
   q.equalTo("name", name);
-  return first(q, true);
+  return first<T>(q, true);
 }
 
 function convertError(e: Parse.Error | Error) {
