@@ -10,7 +10,7 @@ export function save<T extends Parse.Object>(
       success: result => {
         resolve(result);
       },
-      error: e => {
+      error: (_, e) => {
         reject(convertError(e));
       },
       useMasterKey,
