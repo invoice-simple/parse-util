@@ -59,16 +59,17 @@ function convertError(e: Parse.Error | Error) {
 }
 
 export function get<T extends Parse.Object>(
-  classOrQuery: Parse.Query<T> | T,
+  classOrQuery: Parse.Query<T>,// | T,
   id: string,
   useMasterKey: boolean,
   sessionToken?: string
 ) {
   return new Promise<T>((resolve, reject) => {
-    const q =
-      classOrQuery instanceof Parse.Query
-        ? classOrQuery
-        : new Parse.Query(classOrQuery.className);
+    const q = classOrQuery;
+    /// Uncomment this after the @types/parse get fixed
+      // classOrQuery instanceof Parse.Query
+      //   ? classOrQuery
+      //   : new Parse.Query(classOrQuery.className);
     return q.get(id, {
       success: result => {
         resolve(result);
