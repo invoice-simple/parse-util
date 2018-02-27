@@ -54,7 +54,11 @@ function convertError(e: Parse.Error | Error) {
     }
     return e;
   } else {
-    return new Error(`${e.code}: ${e.message}`);
+    const e2 = new Error(`${e.code}: ${e.message}`);
+    if (e.code) {
+      (e2 as any).code = e.code; // keep the e.code in the newly created error
+    }
+    return e2;
   }
 }
 
