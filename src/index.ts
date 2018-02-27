@@ -120,3 +120,16 @@ export function first<T extends Parse.Object>(
     });
   });
 }
+
+export function convertPromise<T>(promise: Parse.Promise<T>) {
+  return new Promise<T>((resolve, reject) => {
+    promise.then(
+      r => {
+        resolve(r);
+      },
+      e => {
+        reject(convertError(e));
+      }
+    );
+  });
+}
