@@ -1,5 +1,10 @@
 //import Parse from 'parse'
 
+let Parse = require('parse');
+if (typeof window === 'undefined'){
+  Parse = require('parse/node')
+} 
+
 export function save<T extends Parse.Object>(
   object: T,
   useMasterKey: boolean,
@@ -63,22 +68,21 @@ function convertError(e: Parse.Error | Error) {
 }
 
 export function get<T extends Parse.Object>(
-  classOrQuery: Parse.Query<T>,// | T,
+  classOrQuery: Parse.Query<T> | T,
   id: string,
   useMasterKey: boolean,
   sessionToken?: string
 ) {
   return new Promise<T>((resolve, reject) => {
-    const q = classOrQuery;
-    /// Uncomment this after the @types/parse get fixed
-      // classOrQuery instanceof Parse.Query
-      //   ? classOrQuery
-      //   : new Parse.Query(classOrQuery.className);
+    const q =    
+      classOrQuery instanceof Parse.Query
+        ? classOrQuery
+        : new Parse.Query(classOrQuery.className);
     return q.get(id, {
       success: result => {
         resolve(result);
       },
-      error: e => {
+      error: (_, e) => {
         reject(convertError(e));
       },
       useMasterKey,
@@ -137,3 +141,4 @@ export function convertPromise<T>(promise: Parse.Promise<T>) {
     );
   });
 }
+
