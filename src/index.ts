@@ -1,4 +1,4 @@
-//import Parse from 'parse'
+//import * as Parse from 'parse'
 
 let Parse = require('parse');
 if (typeof window === 'undefined') {
