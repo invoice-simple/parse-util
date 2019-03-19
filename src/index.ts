@@ -1,27 +1,21 @@
 //import Parse from 'parse'
 
 let Parse = require('parse');
-if (typeof window === 'undefined'){
+if (typeof window === 'undefined') {
   Parse = require('parse/node')
-} 
+}
 
 export function save<T extends Parse.Object>(
   object: T,
   useMasterKey: boolean,
   sessionToken?: string
 ) {
-  return new Promise<T>((resolve, reject) => {
+  convertPromise(
     object.save(null, {
-      success: result => {
-        resolve(result);
-      },
-      error: (_, e) => {
-        reject(convertError(e));
-      },
       useMasterKey,
       sessionToken
-    });
-  });
+    })
+  );
 }
 
 export function getOne<T extends Parse.Object>(
@@ -73,22 +67,17 @@ export function get<T extends Parse.Object>(
   useMasterKey: boolean,
   sessionToken?: string
 ) {
-  return new Promise<T>((resolve, reject) => {
-    const q =    
-      classOrQuery instanceof Parse.Query
-        ? classOrQuery
-        : new Parse.Query(classOrQuery.className);
-    return q.get(id, {
-      success: result => {
-        resolve(result);
-      },
-      error: (_, e) => {
-        reject(convertError(e));
-      },
-      useMasterKey,
-      sessionToken
-    });
-  });
+
+  const q =
+    classOrQuery instanceof Parse.Query
+      ? classOrQuery
+      : new Parse.Query(classOrQuery.className);
+  return convertPromise(q.get(id, {
+
+    useMasterKey,
+    sessionToken
+  }));
+
 }
 
 export function find<T extends Parse.Object>(
@@ -96,18 +85,11 @@ export function find<T extends Parse.Object>(
   useMasterKey: boolean,
   sessionToken?: string
 ) {
-  return new Promise<T[]>((resolve, reject) => {
-    return q.find({
-      success: result => {
-        resolve(result);
-      },
-      error: e => {
-        reject(convertError(e));
-      },
-      useMasterKey,
-      sessionToken
-    });
-  });
+  return convertPromise(q.find({
+    useMasterKey,
+    sessionToken
+  })
+  );
 }
 
 export function first<T extends Parse.Object>(
@@ -115,18 +97,12 @@ export function first<T extends Parse.Object>(
   useMasterKey: boolean,
   sessionToken?: string
 ) {
-  return new Promise<T | undefined>((resolve, reject) => {
+  convertPromise(
     q.first({
-      success: result => {
-        resolve(result);
-      },
-      error: e => {
-        reject(convertError(e));
-      },
       useMasterKey,
       sessionToken
-    });
-  });
+    })
+  )
 }
 
 export function convertPromise<T>(promise: Parse.Promise<T>) {
